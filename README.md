@@ -11,6 +11,7 @@ An interactive and user-friendly Java-based quiz application that allows users t
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Credits](#credits)
 - [License](#license)
 
 ## Features
@@ -75,6 +76,9 @@ Update the database connection details in the application configuration files if
 
 ## Contributing
 - **Contributions are welcome! Please open an issue to discuss what you would like to contribute or improve.**
+
+## Credits
+- **Images and Icons**: Images and icons used in the application were sourced from "https://iconscout.com" and "https://www.flaticon.com" and are credited accordingly.
 
 ## License
 - This project is licensed under the MIT License. See the LICENSE file for more information.
