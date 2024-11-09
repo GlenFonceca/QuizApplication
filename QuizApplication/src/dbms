@@ -1,0 +1,388 @@
+CREATE DATABASE quizapp;
+
+USE quizapp;
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE quizzes (
+    quiz_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE questions (
+    question_id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id INT,
+    question_text TEXT NOT NULL,
+    correct_answer VARCHAR(255) NOT NULL,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
+);
+
+CREATE TABLE options (
+    option_id INT AUTO_INCREMENT PRIMARY KEY,
+    question_id INT,
+    option_text VARCHAR(255) NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES questions(question_id) ON DELETE CASCADE
+);
+
+CREATE TABLE quiz_attempts (
+    attempt_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    quiz_id INT,
+    score INT,
+    attempt_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
+);
+
+-- select * from users;
+
+-- select * from questions;
+
+-- select * from options;
+
+-- select * from quizzes;
+
+-- select * from quiz_attempts;
+
+-- delete from quizzes where user_id>0;
+
+-- drop table questions;
+-- drop table quizzes;
+-- drop table options;
+-- drop table quiz_attempts;
+
+
+INSERT INTO quizzes (title) VALUES
+('General Knowledge Quiz'),  -- 1 refers to General Knowledge
+('Science Quiz'),            -- 2 refers to Science
+('History Quiz'),            -- 3 refers to History
+('Sports Quiz');             -- 4 refers to Sports
+
+-- Insert 20 questions for the General Knowledge quiz with quiz_id = 1
+INSERT INTO questions (quiz_id, question_text, correct_answer) VALUES
+(1, 'What is the capital of France?', 'Paris'),
+(1, 'Who wrote "To Kill a Mockingbird"?', 'Harper Lee'),
+(1, 'What is the largest planet in our solar system?', 'Jupiter'),
+(1, 'What is the boiling point of water at sea level?', '100'),
+(1, 'Who painted the Mona Lisa?', 'Leonardo da Vinci'),
+(1, 'Which is the smallest country in the world?', 'Vatican City'),
+(1, 'What is the currency of Japan?', 'Yen'),
+(1, 'In what year did World War II end?', '1945'),
+(1, 'What is the chemical symbol for Gold?', 'Au'),
+(1, 'What is the tallest mountain in the world?', 'Mount Everest'),
+(1, 'Who is the author of the Harry Potter series?', 'J.K. Rowling'),
+(1, 'Which element has the atomic number 1?', 'Hydrogen'),
+(1, 'What is the hardest natural substance on Earth?', 'Diamond'),
+(1, 'Which country is known as the Land of the Rising Sun?', 'Japan'),
+(1, 'Who was the first man to step on the Moon?', 'Neil Armstrong'),
+(1, 'What is the longest river in the world?', 'Nile'),
+(1, 'Which continent is the Sahara Desert located?', 'Africa'),
+(1, 'What does DNA stand for?', 'Deoxyribonucleic Acid'),
+(1, 'What language is primarily spoken in Brazil?', 'Portuguese'),
+(1, 'How many continents are there?', '7');
+
+-- Insert options for each question (question_id starts from 1 and increments sequentially)
+INSERT INTO options (question_id, option_text) VALUES
+-- Options for "What is the capital of France?"
+(1, 'Berlin'), (1, 'Madrid'), (1, 'Rome'), (1, 'Paris'),
+-- Options for "Who wrote 'To Kill a Mockingbird'?"
+(2, 'Harper Lee'), (2, 'Jane Austen'), (2, 'F. Scott Fitzgerald'), (2, 'Mark Twain'),
+-- Options for "What is the largest planet in our solar system?"
+(3, 'Earth'), (3, 'Mars'), (3, 'Jupiter'), (3, 'Saturn'),
+-- Options for "What is the boiling point of water at sea level?"
+(4, '90'), (4, '100'), (4, '110'), (4, '120'),
+-- Options for "Who painted the Mona Lisa?"
+(5, 'Vincent van Gogh'), (5, 'Pablo Picasso'), (5, 'Claude Monet'), (5, 'Leonardo da Vinci'),
+-- Options for "Which is the smallest country in the world?"
+(6, 'Monaco'), (6, 'Vatican City'), (6, 'Malta'), (6, 'Liechtenstein'),
+-- Options for "What is the currency of Japan?"
+(7, 'Yuan'), (7, 'Won'), (7, 'Yen'), (7, 'Rupee'),
+-- Options for "In what year did World War II end?"
+(8, '1940'), (8, '1942'), (8, '1945'), (8, '1950'),
+-- Options for "What is the chemical symbol for Gold?"
+(9, 'Au'), (9, 'Ag'), (9, 'Fe'), (9, 'Pb'),
+-- Options for "What is the tallest mountain in the world?"
+(10, 'K2'), (10, 'Kangchenjunga'), (10, 'Mount Everest'), (10, 'Lhotse'),
+-- Options for "Who is the author of the Harry Potter series?"
+(11, 'J.R.R. Tolkien'), (11, 'George R.R. Martin'), (11, 'J.K. Rowling'), (11, 'Stephen King'),
+-- Options for "Which element has the atomic number 1?"
+(12, 'Helium'), (12, 'Oxygen'), (12, 'Hydrogen'), (12, 'Carbon'),
+-- Options for "What is the hardest natural substance on Earth?"
+(13, 'Iron'), (13, 'Quartz'), (13, 'Diamond'), (13, 'Graphite'),
+-- Options for "Which country is known as the Land of the Rising Sun?"
+(14, 'China'), (14, 'South Korea'), (14, 'Japan'), (14, 'Vietnam'),
+-- Options for "Who was the first man to step on the Moon?"
+(15, 'Buzz Aldrin'), (15, 'Neil Armstrong'), (15, 'Yuri Gagarin'), (15, 'Michael Collins'),
+-- Options for "What is the longest river in the world?"
+(16, 'Amazon'), (16, 'Yangtze'), (16, 'Nile'), (16, 'Mississippi'),
+-- Options for "Which continent is the Sahara Desert located?"
+(17, 'Asia'), (17, 'Africa'), (17, 'Australia'), (17, 'South America'),
+-- Options for "What does DNA stand for?"
+(18, 'Deoxyribonucleic Acid'), (18, 'Deoxyribose Amino Acid'), (18, 'Deoxyribose Nucleic Acid'), (18, 'Deoxynucleic Acid'),
+-- Options for "What language is primarily spoken in Brazil?"
+(19, 'Spanish'), (19, 'Portuguese'), (19, 'French'), (19, 'English'),
+-- Options for "How many continents are there?"
+(20, '5'), (20, '6'), (20, '7'), (20, '8');
+
+-- Insert 20 questions for the Science quiz (assuming quiz_id = 2)
+INSERT INTO questions (quiz_id, question_text, correct_answer) VALUES
+(2, 'What is the chemical symbol for water?', 'H2O'),
+(2, 'What is the powerhouse of the cell?', 'Mitochondria'),
+(2, 'What is the acceleration due to gravity on Earth?', '9.8 m/s²'),
+(2, 'What gas do plants absorb from the atmosphere?', 'Carbon Dioxide'),
+(2, 'What is the most abundant gas in the Earth’s atmosphere?', 'Nitrogen'),
+(2, 'Who proposed the theory of evolution?', 'Charles Darwin'),
+(2, 'What is the hardest natural substance on Earth?', 'Diamond'),
+(2, 'What is the boiling point of water at sea level in Celsius?', '100'),
+(2, 'What is the largest organ in the human body?', 'Skin'),
+(2, 'What is the formula for calculating force?', 'F = ma'),
+(2, 'What is the smallest unit of life?', 'Cell'),
+(2, 'What part of the brain controls balance?', 'Cerebellum'),
+(2, 'What is the process by which plants make their own food?', 'Photosynthesis'),
+(2, 'What is the unit of electrical resistance?', 'Ohm'),
+(2, 'What is the main gas found in the air we breathe?', 'Nitrogen'),
+(2, 'What is the study of living organisms called?', 'Biology'),
+(2, 'What type of bond involves the sharing of electron pairs between atoms?', 'Covalent Bond'),
+(2, 'What is the most common element in the universe?', 'Hydrogen'),
+(2, 'What is the primary function of red blood cells?', 'Transport oxygen'),
+(2, 'What is a measure of the amount of matter in an object?', 'Mass');
+
+-- Insert options for each question (question_id starts from 21 assuming sequential order)
+INSERT INTO options (question_id, option_text) VALUES
+-- Options for "What is the chemical symbol for water?"
+(21, 'H2O'), (21, 'CO2'), (21, 'O2'), (21, 'H2'),
+
+-- Options for "What is the powerhouse of the cell?"
+(22, 'Nucleus'), (22, 'Mitochondria'), (22, 'Ribosome'), (22, 'Golgi apparatus'),
+
+-- Options for "What is the acceleration due to gravity on Earth?"
+(23, '9.8 m/s²'), (23, '10 m/s²'), (23, '9.81 m/s²'), (23, '8.9 m/s²'),
+
+-- Options for "What gas do plants absorb from the atmosphere?"
+(24, 'Oxygen'), (24, 'Nitrogen'), (24, 'Carbon Dioxide'), (24, 'Hydrogen'),
+
+-- Options for "What is the most abundant gas in the Earth’s atmosphere?"
+(25, 'Oxygen'), (25, 'Carbon Dioxide'), (25, 'Nitrogen'), (25, 'Argon'),
+
+-- Options for "Who proposed the theory of evolution?"
+(26, 'Isaac Newton'), (26, 'Albert Einstein'), (26, 'Charles Darwin'), (26, 'Galileo Galilei'),
+
+-- Options for "What is the hardest natural substance on Earth?"
+(27, 'Gold'), (27, 'Diamond'), (27, 'Quartz'), (27, 'Iron'),
+
+-- Options for "What is the boiling point of water at sea level in Celsius?"
+(28, '100'), (28, '90'), (28, '110'), (28, '120'),
+
+-- Options for "What is the largest organ in the human body?"
+(29, 'Liver'), (29, 'Heart'), (29, 'Skin'), (29, 'Lung'),
+
+-- Options for "What is the formula for calculating force?"
+(30, 'F = mv'), (30, 'F = ma'), (30, 'F = m/a'), (30, 'F = m + a'),
+
+-- Options for "What is the smallest unit of life?"
+(31, 'Atom'), (31, 'Molecule'), (31, 'Cell'), (31, 'Tissue'),
+
+-- Options for "What part of the brain controls balance?"
+(32, 'Cerebrum'), (32, 'Cerebellum'), (32, 'Brainstem'), (32, 'Hypothalamus'),
+
+-- Options for "What is the process by which plants make their own food?"
+(33, 'Respiration'), (33, 'Photosynthesis'), (33, 'Transpiration'), (33, 'Digestion'),
+
+-- Options for "What is the unit of electrical resistance?"
+(34, 'Volt'), (34, 'Watt'), (34, 'Ohm'), (34, 'Ampere'),
+
+-- Options for "What is the main gas found in the air we breathe?"
+(35, 'Oxygen'), (35, 'Carbon Dioxide'), (35, 'Nitrogen'), (35, 'Argon'),
+
+-- Options for "What is the study of living organisms called?"
+(36, 'Physics'), (36, 'Chemistry'), (36, 'Biology'), (36, 'Geology'),
+
+-- Options for "What type of bond involves the sharing of electron pairs between atoms?"
+(37, 'Ionic Bond'), (37, 'Covalent Bond'), (37, 'Metallic Bond'), (37, 'Hydrogen Bond'),
+
+-- Options for "What is the most common element in the universe?"
+(38, 'Oxygen'), (38, 'Helium'), (38, 'Hydrogen'), (38, 'Carbon'),
+
+-- Options for "What is the primary function of red blood cells?"
+(39, 'Fight infections'), (39, 'Transport oxygen'), (39, 'Clot blood'), (39, 'Produce hormones'),
+
+-- Options for "What is a measure of the amount of matter in an object?"
+(40, 'Weight'), (40, 'Mass'), (40, 'Density'), (40, 'Volume');
+
+-- Insert 20 questions for the History quiz (assuming quiz_id = 3)
+INSERT INTO questions (quiz_id, question_text, correct_answer) VALUES
+(3, 'Who was the first President of the United States?', 'George Washington'),
+(3, 'What year did the Titanic sink?', '1912'),
+(3, 'Who wrote the Declaration of Independence?', 'Thomas Jefferson'),
+(3, 'What was the ancient Egyptian writing system called?', 'Hieroglyphics'),
+(3, 'In what year did World War I begin?', '1914'),
+(3, 'Who was known as the Iron Lady?', 'Margaret Thatcher'),
+(3, 'What event is considered the spark that started World War I?', 'Assassination of Archduke Franz Ferdinand'),
+(3, 'Which empire was ruled by Genghis Khan?', 'Mongol Empire'),
+(3, 'Who was the first woman to fly solo across the Atlantic Ocean?', 'Amelia Earhart'),
+(3, 'What was the main cause of the Great Depression?', 'Stock Market Crash of 1929'),
+(3, 'Which country was known as Persia until 1935?', 'Iran'),
+(3, 'Who discovered America in 1492?', 'Christopher Columbus'),
+(3, 'What was the name of the ship that brought the Pilgrims to America?', 'Mayflower'),
+(3, 'In what year did the Berlin Wall fall?', '1989'),
+(3, 'Who was the first man in space?', 'Yuri Gagarin'),
+(3, 'What was the name of the first artificial Earth satellite?', 'Sputnik 1'),
+(3, 'Which ancient civilization built the pyramids?', 'Egyptians'),
+(3, 'What major conflict was fought between 1861 and 1865 in the United States?', 'Civil War'),
+(3, 'Who was assassinated in 1963 while riding in a motorcade in Dallas?', 'John F. Kennedy'),
+(3, 'What treaty ended World War I?', 'Treaty of Versailles');
+
+-- Insert options for each question (question_id starts from 41 assuming sequential order)
+INSERT INTO options (question_id, option_text) VALUES
+-- Options for "Who was the first President of the United States?"
+(41, 'George Washington'), (41, 'Thomas Jefferson'), (41, 'Abraham Lincoln'), (41, 'John Adams'),
+
+-- Options for "What year did the Titanic sink?"
+(42, '1910'), (42, '1912'), (42, '1914'), (42, '1916'),
+
+-- Options for "Who wrote the Declaration of Independence?"
+(43, 'George Washington'), (43, 'Benjamin Franklin'), (43, 'Thomas Jefferson'), (43, 'John Hancock'),
+
+-- Options for "What was the ancient Egyptian writing system called?"
+(44, 'Cuneiform'), (44, 'Hieroglyphics'), (44, 'Latin'), (44, 'Sanskrit'),
+
+-- Options for "In what year did World War I begin?"
+(45, '1912'), (45, '1914'), (45, '1916'), (45, '1918'),
+
+-- Options for "Who was known as the Iron Lady?"
+(46, 'Angela Merkel'), (46, 'Margaret Thatcher'), (46, 'Indira Gandhi'), (46, 'Golda Meir'),
+
+-- Options for "What event is considered the spark that started World War I?"
+(47, 'Invasion of Poland'), (47, 'Assassination of Archduke Franz Ferdinand'), (47, 'Attack on Pearl Harbor'), (47, 'The Zimmerman Telegram'),
+
+-- Options for "Which empire was ruled by Genghis Khan?"
+(48, 'Ottoman Empire'), (48, 'Mongol Empire'), (48, 'Roman Empire'), (48, 'Persian Empire'),
+
+-- Options for "Who was the first woman to fly solo across the Atlantic Ocean?"
+(49, 'Amelia Earhart'), (49, 'Bessie Coleman'), (49, 'Harriet Quimby'), (49, 'Sally Ride'),
+
+-- Options for "What was the main cause of the Great Depression?"
+(50, 'Stock Market Crash of 1929'), (50, 'World War I'), (50, 'Dust Bowl'), (50, 'The New Deal'),
+
+-- Options for "Which country was known as Persia until 1935?"
+(51, 'Iraq'), (51, 'Iran'), (51, 'Turkey'), (51, 'Afghanistan'),
+
+-- Options for "Who discovered America in 1492?"
+(52, 'Ferdinand Magellan'), (52, 'Christopher Columbus'), (52, 'Leif Erikson'), (52, 'Hernán Cortés'),
+
+-- Options for "What was the name of the ship that brought the Pilgrims to America?"
+(53, 'Santa Maria'), (53, 'Mayflower'), (53, 'Nina'), (53, 'Pinta'),
+
+-- Options for "In what year did the Berlin Wall fall?"
+(54, '1987'), (54, '1989'), (54, '1991'), (54, '1993'),
+
+-- Options for "Who was the first man in space?"
+(55, 'Buzz Aldrin'), (55, 'Neil Armstrong'), (55, 'Yuri Gagarin'), (55, 'John Glenn'),
+
+-- Options for "What was the name of the first artificial Earth satellite?"
+(56, 'Apollo 11'), (56, 'Sputnik 1'), (56, 'Explorer 1'), (56, 'Vanguard 1'),
+
+-- Options for "Which ancient civilization built the pyramids?"
+(57, 'Maya'), (57, 'Romans'), (57, 'Egyptians'), (57, 'Greeks'),
+
+-- Options for "What major conflict was fought between 1861 and 1865 in the United States?"
+(58, 'Revolutionary War'), (58, 'Civil War'), (58, 'World War I'), (58, 'World War II'),
+
+-- Options for "Who was assassinated in 1963 while riding in a motorcade in Dallas?"
+(59, 'Richard Nixon'), (59, 'John F. Kennedy'), (59, 'Lyndon B. Johnson'), (59, 'Harry Truman'),
+
+-- Options for "What treaty ended World War I?"
+(60, 'Treaty of Paris'), (60, 'Treaty of Versailles'), (60, 'Treaty of Ghent'), (60, 'Treaty of Trianon');
+
+-- Insert 20 questions for the Sports quiz (assuming quiz_id = 4)
+INSERT INTO questions (quiz_id, question_text, correct_answer) VALUES
+(4, 'Which country won the FIFA World Cup in 2018?', 'France'),
+(4, 'In which sport is the term "home run" used?', 'Baseball'),
+(4, 'What is the national sport of Japan?', 'Sumo'),
+(4, 'Who holds the record for the most Olympic gold medals?', 'Michael Phelps'),
+(4, 'Which athlete is known as "The Greatest"?', 'Muhammad Ali'),
+(4, 'What is the highest score possible in a game of ten-pin bowling?', '300'),
+(4, 'In which sport would you perform a slam dunk?', 'Basketball'),
+(4, 'What is the official distance of a marathon?', '42.195 kilometers'),
+(4, 'Who won the UEFA Champions League in 2020?', 'Bayern Munich'),
+(4, 'Which country hosted the 2008 Summer Olympics?', 'China'),
+(4, 'In which sport is the Ryder Cup contested?', 'Golf'),
+(4, 'Who is known as "King of Clay" in tennis?', 'Rafael Nadal'),
+(4, 'Which sport is played on a field with 22 players and a round ball?', 'Soccer'),
+(4, 'What sport features a championship known as "The World Series"?', 'Baseball'),
+(4, 'In which sport do teams compete for the Stanley Cup?', 'Ice Hockey'),
+(4, 'What is the most popular sport in the world?', 'Soccer'),
+(4, 'Who is the fastest man in the world (as of 2021)?', 'Usain Bolt'),
+(4, 'Which country has won the most Rugby World Cups?', 'New Zealand'),
+(4, 'In which sport do players use a racket to hit a shuttlecock?', 'Badminton'),
+(4, 'What is the length of an Olympic swimming pool?', '50 meters');
+
+-- Insert options for each question (question_id starts from 61 assuming sequential order)
+INSERT INTO options (question_id, option_text) VALUES
+-- Options for "Which country won the FIFA World Cup in 2018?"
+(61, 'Germany'), (61, 'Brazil'), (61, 'France'), (61, 'Argentina'),
+
+-- Options for "In which sport is the term 'home run' used?"
+(62, 'Baseball'), (62, 'Basketball'), (62, 'Soccer'), (62, 'Cricket'),
+
+-- Options for "What is the national sport of Japan?"
+(63, 'Karate'), (63, 'Baseball'), (63, 'Judo'), (63, 'Sumo'),
+
+-- Options for "Who holds the record for the most Olympic gold medals?"
+(64, 'Usain Bolt'), (64, 'Michael Phelps'), (64, 'Carl Lewis'), (64, 'Mark Spitz'),
+
+-- Options for "Which athlete is known as 'The Greatest'?"
+(65, 'Mike Tyson'), (65, 'Muhammad Ali'), (65, 'Joe Frazier'), (65, 'Sugar Ray Leonard'),
+
+-- Options for "What is the highest score possible in a game of ten-pin bowling?"
+(66, '200'), (66, '250'), (66, '300'), (66, '350'),
+
+-- Options for "In which sport would you perform a slam dunk?"
+(67, 'Football'), (67, 'Basketball'), (67, 'Volleyball'), (67, 'Hockey'),
+
+-- Options for "What is the official distance of a marathon?"
+(68, '42 kilometers'), (68, '42.195 kilometers'), (68, '26 miles'), (68, '30 kilometers'),
+
+-- Options for "Who won the UEFA Champions League in 2020?"
+(69, 'Liverpool'), (69, 'Manchester City'), (69, 'Bayern Munich'), (69, 'Real Madrid'),
+
+-- Options for "Which country hosted the 2008 Summer Olympics?"
+(70, 'Japan'), (70, 'China'), (70, 'Australia'), (70, 'United States'),
+
+-- Options for "In which sport is the Ryder Cup contested?"
+(71, 'Golf'), (71, 'Tennis'), (71, 'Baseball'), (71, 'Cricket'),
+
+-- Options for "Who is known as 'King of Clay' in tennis?"
+(72, 'Roger Federer'), (72, 'Rafael Nadal'), (72, 'Novak Djokovic'), (72, 'Pete Sampras'),
+
+-- Options for "Which sport is played on a field with 22 players and a round ball?"
+(73, 'Rugby'), (73, 'Soccer'), (73, 'Basketball'), (73, 'Hockey'),
+
+-- Options for "What sport features a championship known as 'The World Series'?"
+(74, 'Football'), (74, 'Baseball'), (74, 'Basketball'), (74, 'Hockey'),
+
+-- Options for "In which sport do teams compete for the Stanley Cup?"
+(75, 'Ice Hockey'), (75, 'Soccer'), (75, 'Basketball'), (75, 'Football'),
+
+-- Options for "What is the most popular sport in the world?"
+(76, 'Basketball'), (76, 'Soccer'), (76, 'Cricket'), (76, 'Tennis'),
+
+-- Options for "Who is the fastest man in the world (as of 2021)?"
+(77, 'Usain Bolt'), (77, 'Tyson Gay'), (77, 'Carl Lewis'), (77, 'Justin Gatlin'),
+
+-- Options for "Which country has won the most Rugby World Cups?"
+(78, 'Australia'), (78, 'South Africa'), (78, 'New Zealand'), (78, 'England'),
+
+-- Options for "In which sport do players use a racket to hit a shuttlecock?"
+(79, 'Tennis'), (79, 'Badminton'), (79, 'Squash'), (79, 'Table Tennis'),
+
+-- Options for "What is the length of an Olympic swimming pool?"
+(80, '25 meters'), (80, '50 meters'), (80, '75 meters'), (80, '100 meters');
+
+
+
+
