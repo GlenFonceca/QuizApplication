@@ -235,13 +235,13 @@ public class EditQuestionPanel extends JPanel implements ActionListener {
     private int getOptionIdFromField(JTextField optionField) {
         // these fields have some predefined or known mapping.
         if (optionField == option1Field) {
-            return 1;  // Replace with actual logic to get option_id for option1Field
+            return 1;  
         } else if (optionField == option2Field) {
-            return 2;  // Replace with actual logic to get option_id for option2Field
+            return 2; 
         } else if (optionField == option3Field) {
-            return 3;  // Replace with actual logic to get option_id for option3Field
+            return 3;  
         } else if (optionField == option4Field) {
-            return 4;  // Replace with actual logic to get option_id for option4Field
+            return 4;  
         }
         return -1;  // Default case if no match found
     }
