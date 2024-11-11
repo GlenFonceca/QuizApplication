@@ -29,13 +29,4 @@ public class QuizController {
         return questions;
     }
 
-//    public int calculateScore(List<Question> questions, List<String> userAnswers) {
-//        int score = 0;
-//        for (int i = 0; i < questions.size(); i++) {
-//            if (questions.get(i).getCorrectAnswer().equals(userAnswers.get(i))) {
-//                score++;
-//            }
-//        }
-//        return score;
-//    }
 }
